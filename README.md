@@ -31,9 +31,19 @@ This project explores graph traversal, shortest-path algorithms, and problem-sol
 ## Project Structure
 
 ```text
-/project-root
-│── knightMoves.js
-└── README.md
+/knight-travails
+│── /node-modules
+│── /src
+│   │── /linked-list
+│       │── LinkedList.js
+│       │── Node.js
+│   │── GraphNode.js
+│   │── knightMoves.js
+│── .gitignore
+│── package-lock.json
+│── package.json
+│── README.md
+└── webpack.config.js
 ```
 
 ---
