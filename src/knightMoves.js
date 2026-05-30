@@ -1,7 +1,6 @@
 import { GraphNode } from "./GraphNode.js";
 import { LinkedList } from "./linked-list/LinkedList.js";
 const list = new LinkedList();
-const chessBoard = [];
 const calcAdjacent = (start) => {
   const num1 = start[0];
   const num2 = start[1];
@@ -43,12 +42,39 @@ const calcAdjacent = (start) => {
 };
 const knightMoves = (start, destination) => {
   const startNode = new GraphNode(start, calcAdjacent(start));
-  const destinationNode = new GraphNode(destination, calcAdjacent(destination));
+  let final;
+  let moves = [];
+  // ============== BFS
+  let queue = [];
+  queue.push(startNode);
+  while (queue.length !== 0) {
+    const current = queue[0];
+    let tmp = queue.slice(1);
+    queue = tmp;
+    current.adjacencyList = calcAdjacent(current.data);
+    for (let index = 0; index < current.adjacencyList.length; index++) {
+      queue.push(current.adjacencyList[index]);
+      if (current.adjacencyList[index].previous === null) {
+        current.adjacencyList[index].previous = current;
+      }
+    }
+    if (current.data.toString() === destination.toString()) {
+      final = current;
+      break;
+    }
+  }
+  // ============== Fill moves
+  let tmp = final;
+  moves.push(tmp.data);
+  while (tmp.previous !== null) {
+    tmp = tmp.previous;
+    moves.push(tmp.data);
+  }
+  // ============== Print
+  console.log(`You made it in ${moves.length - 1} moves!  Here's your path: `);
+  for (let index = moves.length - 1; index >= 0; index--) {
+    console.log(moves[index]);
+  }
 };
-const adj1 = calcAdjacent([0, 0]);
-const node1 = new GraphNode([0, 0], adj1);
-const node2 = node1.adjacencyList[0];
-node2.adjacencyList = calcAdjacent(node2.data);
-console.log(node2.adjacencyList[1].adjacencyList);
 
-export { knightMoves, calcAdjacent };
+knightMoves([0, 7], [7, 0]);
